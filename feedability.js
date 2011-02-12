@@ -1,3 +1,21 @@
+/**
+ * Feedability: NodeJS Feed Proxy With Readability
+ * Copyright (c) 2011, Matthias -apoc- Hecker <http://apoc.cc/>
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 // built in libraries
 var sys = require('sys'), 
     fs = require('fs'),
@@ -64,13 +82,7 @@ http.createServer(function (client_request, client_response) {
                     article_content = info.content;
                   });
                 }
-                content = content.replace('&replaceurl:'+utils2.sha1(article_url)+';', 
-                                          
-                                          article_content
-
-                                          );
-                        
-                        
+                content = content.replace('&replaceurl:'+utils2.sha1(article_url)+';', article_content);
                         
               } else {
                 console.log('ERROR: url '+article_url+' not read!');
