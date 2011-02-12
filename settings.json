@@ -1,0 +1,20 @@
+{
+  "http_server": {
+    "bind": "127.0.0.1",
+    "port": 1912,
+    "banner": "Feedability/0"
+  },
+  "http_client": {
+    "headers": {
+      "User-Agent": "Feedability/0",
+      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      "Accept-Language": "en-us,en;q=0.5",
+      "Accept-Charset": "ISO-8859-1,utf-8;q=0.7,*;q=0.7",
+      "Pragma": "no-cache"
+    }
+  },
+  "feed_parser": {
+    "item_elements": ["item", "entry"],
+    "remove_elements": ["content:encoded", "description", "content", "summary"]
+  }
+}

@@ -1,0 +1,8 @@
+
+- rewrite the feed parser/generator using jsdom etc. I do not like the way
+  the current implementation is building the feed xml with the &replace..
+- reuse the excerpt found in the feed, for instance to improve the readability
+  detection or just include it in the feed somehow. (currently its thrown away)
+- fetch and respect the robots.txt file of the sites
+- refactor the utils2 (or maybe use another library for this anyway)
+- ...
