@@ -33,6 +33,14 @@ var tpl = require('./lib/tpl.js'),
     crawler = require('./lib/crawler.js'),
     filter = require('./lib/filter.js');
 
+    
+var cache_directory = utils2.settings['cache_directory'];
+
+if(utils2.filestats(cache_directory) == null) {
+  console.log('create cache directory: '+cache_directory);
+  fs.mkdirSync(cache_directory, 0755);
+}
+    
 // some variables used for the http server
 var url_pattern = /^\/(http:\/\/.*)$/;
 var bind = utils2.settings['http_server']['bind'];
@@ -67,7 +75,7 @@ http.createServer(function (client_request, client_response) {
               console.log('extract using readability for '+article_url+
                           ' ('+article_content.length+')');
               
-              var cache_file = './cache/'+utils2.sha1(article_url)+'.rdby';
+              var cache_file = utils2.settings['cache_directory']+'/'+utils2.sha1(article_url)+'.rdby';
               var article_text = null; // the extracted article text
               // check for readability cache:
               if(utils2.filestats(cache_file) !== null) {
@@ -78,7 +86,15 @@ http.createServer(function (client_request, client_response) {
               else {
                 // fs.writeFileSync(cache_file+'.html', article_content, encoding='utf8');
                 readability.parse(article_content,article_url,function(info){
-                  fs.writeFileSync(cache_file, info.content, encoding='utf8');
+                  fs.writeFile(cache_file, info.content, function(error) {
+                    if(error) {
+                      console.log('[ERROR] unable to write readability cache file: '+error);
+                    }
+                    else {
+                      console.log('written readability cache file: '+cache_file);
+                    }
+                  });
+                  
                   article_text = info.content;
                 });
               }

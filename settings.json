@@ -24,5 +24,6 @@
       "carta-standard-rss": ["#commentblock"],
       "heise\\.de": ["#mitte_rechts"]
     }
-  }
+  },
+  "cache_directory": "./cache"
 }
