@@ -12,6 +12,7 @@ I've ordered the list after the importance.
 - make cache files a little bit more accessible: use directories for domains
   and timestamps etc. for the filename? How about creating a special 
   directory with more usable information as directories and softlinks?
+- gzip the cache files
 - ...
 - fetch and respect the robots.txt file of the sites
 - rewrite the feed parser/generator using jsdom etc. I do not like the way

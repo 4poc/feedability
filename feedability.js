@@ -86,12 +86,10 @@ http.createServer(function (client_request, client_response) {
               else {
                 // fs.writeFileSync(cache_file+'.html', article_content, encoding='utf8');
                 readability.parse(article_content,article_url,function(info){
+                  console.log('write readability cache file: '+cache_file);
                   fs.writeFile(cache_file, info.content, function(error) {
                     if(error) {
                       console.log('[ERROR] unable to write readability cache file: '+error);
-                    }
-                    else {
-                      console.log('written readability cache file: '+cache_file);
                     }
                   });
                   
