@@ -1,8 +1,20 @@
 
-- rewrite the feed parser/generator using jsdom etc. I do not like the way
-  the current implementation is building the feed xml with the &replace..
+I've ordered the list after the importance.
+
+- readability returns: "Sorry, unable to parse article content. Please view 
+  the original page instead." if it was unable to parse it. Should detect
+  that and restore the original excerpt.
 - reuse the excerpt found in the feed, for instance to improve the readability
   detection or just include it in the feed somehow. (currently its thrown away)
+- detect images (and maybe other content) and download it locally so that the
+  proxy can serve it from cache. *or* make sure the image links are pointing
+  to an absolute url.
+- make cache files a little bit more accessible: use directories for domains
+  and timestamps etc. for the filename? How about creating a special 
+  directory with more usable information as directories and softlinks?
+- ...
 - fetch and respect the robots.txt file of the sites
+- rewrite the feed parser/generator using jsdom etc. I do not like the way
+  the current implementation is building the feed xml with the &replace..
 - refactor the utils2 (or maybe use another library for this anyway)
 - ...

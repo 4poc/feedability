@@ -15,28 +15,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+console.log('Starting Feedability: NodeJS Feed Proxy With Readability\n');
 
 // built in libraries
-var sys = require('sys'), 
-    fs = require('fs'),
-    events = require('events'),
-    jsdom = require('jsdom'),
+var fs = require('fs'),
     http = require('http'),
-    util = require('util'),
-    jsdom = require('jsdom'),
-    urllib = require('url'),
-    crypto = require('crypto');
+    urllib = require('url');
 
 // external libraries
-var expat = require('node-expat'),
-    readability = require('readability');
+var readability = require('readability');
 
 // internal libraries
 var tpl = require('./lib/tpl.js'),
     utils2 = require('./lib/utils2.js'),
     urlopen = require('./lib/urlopen.js'),
     feed = require('./lib/feed.js'),
-    crawler = require('./lib/crawler.js');
+    crawler = require('./lib/crawler.js'),
+    filter = require('./lib/filter.js');
 
 // some variables used for the http server
 var url_pattern = /^\/(http:\/\/.*)$/;
@@ -46,53 +41,61 @@ var port = utils2.settings['http_server']['port'];
 // create the http server with the feed proxy
 http.createServer(function (client_request, client_response) {
   var request_url = client_request.url;
-  console.log('');
 
-  var match = request_url.match(url_pattern);
-  if(match) {
-    var feed_url = match[1];
-    console.log('--[ feed url: '+feed_url);
+  var url_match = request_url.match(url_pattern);
+  if(url_match) {
+    var feed_url = url_match[1];
+    console.log('processing new feed url: '+feed_url);
     
     // fetch and process feed
     feed.parse(feed_url, {
       // the feed is successfully retreived and parsed
-      finished: function(content, articles) {
+      finished: function(feedxml, feedxmlmime, articles) {
 
         // next crawl each article url in the feed:
         var crawl = new crawler.Crawler(articles);
         crawl.fetch({
-          finished: function(contents) {
-            // TODO: make this part within another lib
-            utils2.foreach(contents, function(article_url) {
-              if (contents[article_url]) {
-                console.log('start readability for '+article_url+' '+contents[article_url].length);
-                
-                var cache_file = './cache/'+utils2.sha1(article_url)+'.rdby';
-                
-                var article_content = null;
-                
-                if(utils2.filestats(cache_file) !== null) {
-                  console.log('--[ load cache file: '+cache_file);
-                  article_content = fs.readFileSync(cache_file).toString();
-
-                }
-                else { // no cache...
-                  readability.parse(contents[article_url], article_url, function(info) {
-                    fs.writeFileSync(cache_file, info.content, encoding='utf8')
-                    article_content = info.content;
-                  });
-                }
-                content = content.replace('&replaceurl:'+utils2.sha1(article_url)+';', article_content);
-                        
-              } else {
-                console.log('ERROR: url '+article_url+' not read!');
+          finished: function(article_contents) {
+            var article_urls = utils2.hashkeys(article_contents);
+            for(var i = 0; i < article_urls.length; i++) {
+              var article_url = article_urls[i];
+              var article_content = article_contents[article_url];
+              if(!article_content || article_content.length <= 0) {
+                console.log('[ERROR] article not retreived: '+article_url);
+                return; // |continue;
               }
-            });
+              console.log('extract using readability for '+article_url+
+                          ' ('+article_content.length+')');
+              
+              var cache_file = './cache/'+utils2.sha1(article_url)+'.rdby';
+              var article_text = null; // the extracted article text
+              // check for readability cache:
+              if(utils2.filestats(cache_file) !== null) {
+                console.log('using readability cache file: '+cache_file);
+                article_text = fs.readFileSync(cache_file).toString();
+              }
+              // use readability to extract the article text
+              else {
+                // fs.writeFileSync(cache_file+'.html', article_content, encoding='utf8');
+                readability.parse(article_content,article_url,function(info){
+                  fs.writeFileSync(cache_file, info.content, encoding='utf8');
+                  article_text = info.content;
+                });
+              }
+              
+              // insert article text in feed:
+              var replace_entity = '&replaceurl:'+utils2.sha1(article_url)+';';
+              feedxml = feedxml.replace(replace_entity, article_text);
+            }
+
+            console.log('send finished feed xml to client\n');
+            var server_headers = {
+              'Content-Type': feedxmlmime+'; charset=utf-8',
+              'Server': utils2.settings['http_server']['banner']
+            };
             
-      
-            console.log('--[ finished readability.');
-            client_response.writeHead(200, {'Content-Type': 'text/html'});
-            client_response.end(content);
+            client_response.writeHead(200, server_headers);
+            client_response.end(feedxml);
           },
           error: function(message) {
             tpl.error(client_response, message);
@@ -113,5 +116,7 @@ http.createServer(function (client_request, client_response) {
     page.render(client_response);
   }
 }).listen(port, bind);
-console.log('--[ http server started http://'+bind+':'+port+'/');
+console.log('http server started: http://'+bind+':'+port+'/');
+console.log('  just append your feed url, for example:');
+console.log('    http://'+bind+':'+port+'/http://example.com/feed.rss');
 

@@ -1,6 +1,6 @@
 {
   "http_server": {
-    "bind": "127.0.0.1",
+    "bind": "0.0.0.0",
     "port": 1912,
     "banner": "Feedability/0"
   },
@@ -16,5 +16,13 @@
   "feed_parser": {
     "item_elements": ["item", "entry"],
     "remove_elements": ["content:encoded", "description", "content", "summary"]
+  },
+  "filter": {
+    "activate": true,
+    "jquery_path": "./ext/jquery-1.5.min.js",
+    "jquery_filters": {
+      "carta-standard-rss": ["#commentblock"],
+      "heise\\.de": ["#mitte_rechts"]
+    }
   }
 }
