@@ -34,11 +34,11 @@ var tpl = require('./lib/tpl.js'),
     filter = require('./lib/filter.js');
 
     
-var cache_directory = utils2.settings['cache_directory'];
+var cache_path = utils2.settings['cache_path'];
 
-if(utils2.filestats(cache_directory) == null) {
-  console.log('create cache directory: '+cache_directory);
-  fs.mkdirSync(cache_directory, 0755);
+if(utils2.filestats(cache_path) == null) {
+  console.log('create cache directory: '+cache_path);
+  fs.mkdirSync(cache_path, 0755);
 }
     
 // some variables used for the http server
@@ -63,19 +63,20 @@ http.createServer(function (client_request, client_response) {
         // next crawl each article url in the feed:
         var crawl = new crawler.Crawler(articles);
         crawl.fetch({
-          finished: function(article_contents) {
-            var article_urls = utils2.hashkeys(article_contents);
+          // the articles include a structure with url, orig_url, data, etc.
+          finished: function(articles) {
+            var article_urls = utils2.hashkeys(articles);
             for(var i = 0; i < article_urls.length; i++) {
               var article_url = article_urls[i];
-              var article_content = article_contents[article_url];
-              if(!article_content || article_content.length <= 0) {
+              var article_data = articles[article_url].data;
+              if(!article_data || article_data.length <= 0) {
                 console.log('[ERROR] article not retreived: '+article_url);
                 return; // |continue;
               }
               console.log('extract using readability for '+article_url+
-                          ' ('+article_content.length+')');
+                          ' ('+article_data.length+')');
               
-              var cache_file = utils2.settings['cache_directory']+'/'+utils2.sha1(article_url)+'.rdby';
+              var cache_file = utils2.cache_file(article_url) + '.rdby';
               var article_text = null; // the extracted article text
               // check for readability cache:
               if(utils2.filestats(cache_file) !== null) {
@@ -84,8 +85,7 @@ http.createServer(function (client_request, client_response) {
               }
               // use readability to extract the article text
               else {
-                // fs.writeFileSync(cache_file+'.html', article_content, encoding='utf8');
-                readability.parse(article_content,article_url,function(info){
+                readability.parse(article_data, article_url, function(info) {
                   console.log('write readability cache file: '+cache_file);
                   fs.writeFile(cache_file, info.content, function(error) {
                     if(error) {
@@ -99,6 +99,7 @@ http.createServer(function (client_request, client_response) {
               
               // insert article text in feed:
               var replace_entity = '&replaceurl:'+utils2.sha1(article_url)+';';
+              article_text = article_text.replace(/\x08/, '');
               feedxml = feedxml.replace(replace_entity, article_text);
             }
 
