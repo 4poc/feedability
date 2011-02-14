@@ -70,8 +70,8 @@ http.createServer(function (client_request, client_response) {
               var article_url = article_urls[i];
               var article_data = articles[article_url].data;
               if(!article_data || article_data.length <= 0) {
-                console.log('[ERROR] article not retreived: '+article_url);
-                return; // |continue;
+                console.log('[WARNING] article not retreived: '+article_url+' ('+utils2.cache_file(article_url)+')');
+                continue;
               }
               console.log('extract using readability for '+article_url+
                           ' ('+article_data.length+')');
