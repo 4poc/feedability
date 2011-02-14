@@ -48,6 +48,7 @@ var port = utils2.settings['http_server']['port'];
 
 // create the http server with the feed proxy
 http.createServer(function (client_request, client_response) {
+  var host = client_request.headers['host'];
   var request_url = client_request.url;
 
   var url_match = request_url.match(url_pattern);
@@ -131,12 +132,14 @@ http.createServer(function (client_request, client_response) {
   }
   else {
     var page = new tpl.Template('./html/index.html');
-    page.assign('host', bind);
-    page.assign('port', port);
+    page.assign('host', host);
     page.render(client_response);
   }
 }).listen(port, bind);
+if(bind == '0.0.0.0') {
+  bind = '127.0.0.1';
+}
 console.log('http server started: http://'+bind+':'+port+'/');
-console.log('  just append your feed url, for example:');
+console.log('  just append your feed url, for instance:');
 console.log('    http://'+bind+':'+port+'/http://example.com/feed.rss');
 

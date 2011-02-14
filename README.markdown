@@ -1,0 +1,38 @@
+Feedability is written in javascript using the [v8 engine](http://code.google.com/p/v8/) and [node.js](http://nodejs.org/), it requires the [node-readability](https://github.com/arrix/node-readability) and [node-expat](https://github.com/astro/node-expat) libraries that can be installed using [npm](http://npmjs.org/). Feedability implements a small HTTP Server, you sent the feed you want to read just as a query string, so for instance: `http://127.0.0.1:1912/http://example.com/atom.xml` The node.js server will download the feed and parse it for item links (article links), it will also remove any existing content excerpts. 
+Then it crawls all articles and uses readability to extract the content of the received pages. The original feed will be extended with the full-text of the articles and send to the user (the feed reader software). Feedability also supports filters based on [jquery](http://jquery.com/) [selectors](http://api.jquery.com/category/selectors/), if specified for the article url, the selected elements are removed from the page before readability runs. This can be used as a very easy to use workaround for specific sites when readability gets distracted by certain elements (like navigation or comment sections).
+
+# Installation
+
+- Install Node.js using your distribution package manager or compile it from source. For detailed installation instructions consider the [node wiki](https://github.com/ry/node/wiki/): [Installation](https://github.com/ry/node/wiki/Installation).
+- Install [npm](http://npmjs.org/), the de-facto standard package manager for node: [README](https://github.com/isaacs/npm#readme) with setup instructions.
+- or: If your distribution of choice is Arch Linux you can use the AUR packages [nodejs](http://aur.archlinux.org/packages.php?ID=32930) and [nodejs-npm](http://aur.archlinux.org/packages.php?ID=43626).
+- Run `node -v` and `npm -v` to make sure everything works, then, install the necessary depended libraries:
+```
+npm install readability
+npm install node-expat
+```
+- Finally, change to a directory of your choice and clone the feedability git repository (there are currently no file releases available):
+```
+git clone git://github.com/4poc/feedability.git
+```
+
+# Usage
+
+To start feedability just change in the working directory and execute `node feedability.py`. If everything works you should be able to view [[http://127.0.0.1:1912/]] with your browser.
+```
+% node feedability.py
+Starting Feedability: NodeJS Feed Proxy With Readability
+
+load json settings: settings.json
+http server started: http://127.0.0.1:1912/
+  just append your feed url, for instance:
+    http://127.0.0.1:1912/http://example.com/feed.rss
+```
+
+# Contact me for Feedback/Questions/Problems:
+
+- If you would like to contact me in private use apoc@sixserv.org.
+- My IRC nickname is apoc you can reach me in [Freenode](http://freenode.net/) or [Teranetworks](http://geekosphere.org/irc/) ([webchat](https://webchat.geekosphere.org/?channels=sixserv))
+- File a new issue in this git repository
+
+
