@@ -87,6 +87,11 @@ http.createServer(function (client_request, client_response) {
               else {
                 readability.parse(article_data, article_url, function(info) {
                   console.log('write readability cache file: '+cache_file);
+                  
+                  // replace relative urls with absolute ones:
+                  info.content = utils2.rel2abs(info.content, articles[article_url].domain);
+                  // it would be nice to do this directly in the dom, @TODO
+
                   fs.writeFile(cache_file, info.content, function(error) {
                     if(error) {
                       console.log('[ERROR] unable to write readability cache file: '+error);

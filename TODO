@@ -13,9 +13,16 @@ I've ordered the list after the importance.
   and timestamps etc. for the filename? How about creating a special 
   directory with more usable information as directories and softlinks?
 - gzip the cache files
+- currently I built a jsdom tree for the jquery selector filtering, but this
+  does not really make sense because readability is creating a jsdom tree
+  anyways, it would be cool to have pre and post hooks to manipulate the
+  dom tree that readability is using.
 - ...
 - fetch and respect the robots.txt file of the sites
 - rewrite the feed parser/generator using jsdom etc. I do not like the way
   the current implementation is building the feed xml with the &replace..
 - refactor the utils2 (or maybe use another library for this anyway)
 - ...
+- sort this list
+
+
