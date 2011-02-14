@@ -7,19 +7,23 @@ Then it crawls all articles and uses readability to extract the content of the r
 - Install [npm](http://npmjs.org/), the de-facto standard package manager for node: [README](https://github.com/isaacs/npm#readme) with setup instructions.
 - or: If your distribution of choice is Arch Linux you can use the AUR packages [nodejs](http://aur.archlinux.org/packages.php?ID=32930) and [nodejs-npm](http://aur.archlinux.org/packages.php?ID=43626).
 - Run `node -v` and `npm -v` to make sure everything works, then, install the necessary depended libraries:
-```
+
+```sh
 npm install readability
 npm install node-expat
 ```
+
 - Finally, change to a directory of your choice and clone the feedability git repository (there are currently no file releases available):
-```
+
+```sh
 git clone git://github.com/4poc/feedability.git
 ```
 
 # Usage
 
 To start feedability just change in the working directory and execute `node feedability.py`. If everything works you should be able to view [[http://127.0.0.1:1912/]] with your browser.
-```
+
+```sh
 % node feedability.py
 Starting Feedability: NodeJS Feed Proxy With Readability
 
@@ -34,5 +38,4 @@ http server started: http://127.0.0.1:1912/
 - If you would like to contact me in private use apoc@sixserv.org.
 - My IRC nickname is apoc you can reach me in [Freenode](http://freenode.net/) or [Teranetworks](http://geekosphere.org/irc/) ([webchat](https://webchat.geekosphere.org/?channels=sixserv))
 - File a new issue in this git repository
-
 
