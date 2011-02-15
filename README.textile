@@ -15,9 +15,9 @@ npm install node-expat
 
 * Finally, change to a directory of your choice and clone the feedability git repository (there are currently no file releases available):
 
-```sh
+<pre>
 git clone git://github.com/4poc/feedability.git
-```
+</pre>
 
 h2. Usage
 
