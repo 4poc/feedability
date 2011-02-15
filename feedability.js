@@ -104,7 +104,6 @@ http.createServer(function (client_request, client_response) {
                 });
                 }
                 catch(e) {
-                  fs.writeFileSync('catch.txt', e.toString());
                   console.log(e);
                 }
               }
