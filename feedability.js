@@ -19,32 +19,32 @@ console.log('Starting Feedability: NodeJS Feed Proxy With Readability\n');
 
 // built in libraries
 var fs = require('fs'),
-    http = require('http'),
-    urllib = require('url');
+    http = require('http');
 
 // external libraries
 var readability = require('readability');
 
 // internal libraries
 var tpl = require('./lib/tpl.js'),
-    utils2 = require('./lib/utils2.js'),
+    func = require('./lib/func.js'),
+    cfg = require('./lib/cfg.js'),
+    cache = require('./lib/cache.js'),
     urlopen = require('./lib/urlopen.js'),
     feed = require('./lib/feed.js'),
     crawler = require('./lib/crawler.js'),
     filter = require('./lib/filter.js');
 
-    
-var cache_path = utils2.settings['cache_path'];
+var cache_path = cfg.get('cache_path');
 
-if(utils2.filestats(cache_path) == null) {
+if(!func.file_exists(cache_path)) {
   console.log('create cache directory: '+cache_path);
   fs.mkdirSync(cache_path, 0755);
 }
     
 // some variables used for the http server
 var url_pattern = /^\/(http:\/\/.*)$/;
-var bind = utils2.settings['http_server']['bind'];
-var port = utils2.settings['http_server']['port'];
+var bind = cfg.get('http_server')['bind'];
+var port = cfg.get('http_server')['port'];
 
 // create the http server with the feed proxy
 http.createServer(function (client_request, client_response) {
@@ -66,31 +66,32 @@ http.createServer(function (client_request, client_response) {
         crawl.fetch({
           // the articles include a structure with url, orig_url, data, etc.
           finished: function(articles) {
-            var article_urls = utils2.hashkeys(articles);
+            var article_urls = func.array_keys(articles);
             for(var i = 0; i < article_urls.length; i++) {
               var article_url = article_urls[i];
               var article_data = articles[article_url].data;
               if(!article_data || article_data.length <= 0) {
-                console.log('[WARNING] article not retreived: '+article_url+' ('+utils2.cache_file(article_url)+')');
+                console.log('[WARNING] article not retreived: '+article_url);
                 continue;
               }
               console.log('extract using readability for '+article_url+
                           ' ('+article_data.length+')');
               
-              var cache_file = utils2.cache_file(article_url) + '.rdby';
+              var cache_file = cache.filename('rdby', article_url);
               var article_text = null; // the extracted article text
               // check for readability cache:
-              if(utils2.filestats(cache_file) !== null) {
+              if(func.file_exists(cache_file)) {
                 console.log('using readability cache file: '+cache_file);
                 article_text = fs.readFileSync(cache_file).toString();
               }
               // use readability to extract the article text
               else {
-                readability.parse(article_data, article_url, function(info) {
+                try {
+                readability.parse(article_data.toString(), article_url, function(info) {
                   console.log('write readability cache file: '+cache_file);
                   
                   // replace relative urls with absolute ones:
-                  info.content = utils2.rel2abs(info.content, articles[article_url].domain);
+                  info.content = func.html_rel2abs(info.content, articles[article_url].domain);
                   // it would be nice to do this directly in the dom, @TODO
 
                   fs.writeFile(cache_file, info.content, function(error) {
@@ -101,10 +102,15 @@ http.createServer(function (client_request, client_response) {
                   
                   article_text = info.content;
                 });
+                }
+                catch(e) {
+                  fs.writeFileSync('catch.txt', e.toString());
+                  console.log(e);
+                }
               }
               
               // insert article text in feed:
-              var replace_entity = '&replaceurl:'+utils2.sha1(article_url)+';';
+              var replace_entity = '&replaceurl:'+func.sha1(article_url)+';';
               article_text = article_text.replace(/\x08/, '');
               feedxml = feedxml.replace(replace_entity, article_text);
             }
@@ -112,7 +118,7 @@ http.createServer(function (client_request, client_response) {
             console.log('send finished feed xml to client\n');
             var server_headers = {
               'Content-Type': feedxmlmime+'; charset=utf-8',
-              'Server': utils2.settings['http_server']['banner']
+              'Server': cfg.get('http_server')['banner']
             };
             
             client_response.writeHead(200, server_headers);
@@ -136,10 +142,6 @@ http.createServer(function (client_request, client_response) {
     page.render(client_response);
   }
 }).listen(port, bind);
-if(bind == '0.0.0.0') {
-  bind = '127.0.0.1';
-}
-console.log('http server started: http://'+bind+':'+port+'/');
-console.log('  just append your feed url, for instance:');
-console.log('    http://'+bind+':'+port+'/http://example.com/feed.rss');
+console.log('http server listening on '+bind+' port '+port);
+console.log('open a browser and try: http://127.0.0.1:'+port+'/');
 

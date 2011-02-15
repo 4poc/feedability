@@ -1,6 +1,6 @@
 {
   "http_server": {
-    "bind": "0.0.0.0",
+    "bind": "127.0.0.1",
     "port": 1912,
     "banner": "Feedability/0"
   },
@@ -21,8 +21,8 @@
     "activate": true,
     "jquery_path": "./ext/jquery-1.5.min.js",
     "jquery_filters": {
-      "carta-standard-rss": ["#commentblock"],
-      "heise\\.de": ["#mitte_rechts"]
+      "carta.info": ["#commentblock"],
+      "heise.de": ["#mitte_rechts"]
     }
   },
   "cache_path": "./cache"

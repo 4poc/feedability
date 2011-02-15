@@ -10,6 +10,7 @@ Then it crawls all articles and uses readability to extract the content of the r
 
 ```sh
 npm install readability
+
 npm install node-expat
 ```
 
@@ -22,16 +23,6 @@ git clone git://github.com/4poc/feedability.git
 # Usage
 
 To start feedability just change in the working directory and execute `node feedability.py`. If everything works you should be able to view [[http://127.0.0.1:1912/]] with your browser.
-
-```sh
-% node feedability.py
-Starting Feedability: NodeJS Feed Proxy With Readability
-
-load json settings: settings.json
-http server started: http://127.0.0.1:1912/
-  just append your feed url, for instance:
-    http://127.0.0.1:1912/http://example.com/feed.rss
-```
 
 # Contact me for Feedback/Questions/Problems:
 
