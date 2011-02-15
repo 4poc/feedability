@@ -34,6 +34,8 @@ var tpl = require('./lib/tpl.js'),
     crawler = require('./lib/crawler.js'),
     filter = require('./lib/filter.js');
 
+console.log('use jquery url: '+cfg.get('filter')['jquery_url']);
+    
 var cache_path = cfg.get('cache_path');
 
 if(!func.file_exists(cache_path)) {

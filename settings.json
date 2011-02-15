@@ -19,7 +19,7 @@
   },
   "filter": {
     "activate": true,
-    "jquery_path": "http://code.jquery.com/jquery-1.4.2.min.js",
+    "jquery_url": "http://code.jquery.com/jquery-1.4.2.min.js",
     "jquery_filters": {
       "carta.info": ["#commentblock"],
       "heise.de": ["#mitte_rechts"]
