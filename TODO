@@ -29,3 +29,4 @@ Refactoring
 
 - seperate feedability.js's execution of readability
 - use a library for flow control
+- testcases!

@@ -110,9 +110,20 @@ http.createServer(function (client_request, client_response) {
                 }
               }
               
+              // apply the extracted append and prepend rules:
+              if(articles[article_url].prepend != null) {
+                console.log('rule based prepend: '+articles[article_url].prepend.length);
+                article_text = articles[article_url].prepend + article_text;
+              }
+              if(articles[article_url].append != null) {
+                console.log('rule based append: '+articles[article_url].append.length);
+                article_text += articles[article_url].append;
+              }
+              
               // insert article text in feed:
               var replace_entity = '&replaceurl:'+func.sha1(article_url)+';';
               article_text = article_text.replace(/\x08/, '');
+              console.log('replace entity: '+replace_entity+' with length: '+article_text.length);
               feedxml = feedxml.replace(replace_entity, article_text);
             }
 

@@ -20,9 +20,19 @@
   "filter": {
     "activate": true,
     "jquery_url": "http://code.jquery.com/jquery-1.4.2.min.js",
-    "jquery_filters": {
-      "carta.info": ["#commentblock"],
-      "heise.de": ["#mitte_rechts"]
+    "rules": {
+      "heise.de": {
+        "remove": ["#mitte_rechts"],
+        "exclusive": ["#mitte_links"],
+        "prepend": [],
+        "append": []
+      },
+      "carta.info": {
+        "remove": ["#commentblock"]
+      },
+      "giessener-allgemeine.de": {
+        "prepend": [".fettvorspann"]
+      }
     }
   },
   "cache": {

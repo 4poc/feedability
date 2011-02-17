@@ -27,7 +27,7 @@ You can find a complete documentation in the github "repository wiki":https://gi
 
 h2. Contact me for Feedback/Questions/Problems
 
-* If you would like to contact me in private use apoc@sixserv.org.
+* If you would like to contact me in private use apoc =at= sixserv +dot+ org (GPG: 0xA155B8CB)
 * My IRC nickname is apoc you can reach me in "Freenode":http://freenode.net/ or "Teranetworks":http://geekosphere.org/irc/ ("webchat":https://webchat.geekosphere.org/?channels=sixserv)
 * File a "new issue":https://github.com/4poc/feedability/issues in this git repository
 
