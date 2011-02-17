@@ -5,23 +5,124 @@
   <title>Feedability</title>
   <style type="text/css">
   <!--
-    h1 {
+    body {
+      font: 13.34px helvetica,arial,freesans,clean,sans-serif;
+    }
 
+    section {
+      display: block;
+      width: 740px;
+      margin: 40px auto;
+      padding: 15px;
+    }
+
+    h1 {
+      font-size: 33px;
+      margin-top: 0px;
+    }
+
+    h2 {
+      border-top: 4px solid #E0E0E0 !important;
+      font-size: 150% !important;
+      margin-top: 1.5em !important;
+      padding-top: 0.5em !important;
+    }
+
+    a {
+      color: #4183C4;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    code {
+      font: 12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+      background-color: #F8F8FF;
+      border: 1px solid #DEDEDE;
+      color: #444444;
+      padding: 0 0.2em;
+    }
+
+    form {
+      margin-top: 25px;
+      margin-left: 40px;
+    }
+
+    input {
+      border: 1px solid #CCC;
+      color: #666666;
+      font-size: 11px;
+      padding: 7px;
+      height: 28px !important;
+      border-spacing: 0px;
+      margin: 0px;
+      padding: 0px;
+      space: 0px;
+      line-height:normal !important;
+    }
+
+    input[type="text"] {
+      font: 12px Arial;
+      width: 450px;
+    }
+
+    input[type="submit"] {
+      line-height:normal !important;
+      height: 29px !important;
+      width: 150px;
     }
   -->
   </style>
 </head>
 <body>
 
-  <h1>Feedability</h1>
+  <section>
 
-  <p>Welcome to Feedability. Just append your favorite fulltext missing feed, 
-    the server will fetch feed urls and extract main content using arc90's 
-    <a href="https://www.readability.com/">Readability</a> and replace the 
-    excerpts in the feed with the extracted article.</p>
-  <p>Append the feed url like this:</p>
+    <h1>Welcome to Feedability!</h1>
 
-  <blockquote>http://&host;/http://example.com/news.rss</blockquote>
+    <p><a href="https://github.com/4poc/feedability">Feedability</a> is a 
+    <a href="http://nodejs.org/">Node.js</a> server that uses 
+    <a href="https://www.readability.com/">Readability</a> to replace article 
+    excerpts in feeds with the full article text. For documentation read the 
+    <a href="https://github.com/4poc/feedability/blob/master/README.textile">readme</a> file and 
+    <a href="https://github.com/4poc/feedability/wiki">wiki</a>.</p>
+
+    <p>Feedability is written in javascript using the 
+    <a href="http://code.google.com/p/v8/">v8 engine</a> and Node.js, it 
+    requires the <a href="https://github.com/arrix/node-readability">node-readability</a>
+    and <a href="https://github.com/astro/node-expat">node-expat</a> libraries.
+    It implements a small HTTP server, you sent the feed you want to read just 
+    as a query string or parameter, so for instance: 
+    <code>http://127.0.0.1:1912/http://example.com/atom.xml</code> The node.js 
+    server will download the feed and parse it for item links (article links), 
+    it will also remove any existing content excerpts. Then it crawls all 
+    articles and uses readability to extract the content of the received pages. 
+    The original feed will be extended with the full-text of the articles and 
+    send to the user (the feed reader software). Feedability also supports 
+    filters based on <a href="http://jquery.com/">jquery</a>
+    <a href="http://api.jquery.com/category/selectors/">selectors</a>.
+
+    <h2>Try Feedability</h2>
+
+    <form method="GET" action="/">
+      <input type="text" name="u" id="url" onfocus="setvalue(false);" onblur="setvalue(true);" value="Feed URL, RSS1.0, RSS2.0 or Atom" />
+      <input type="submit" value="Feedability!" />
+    </form>
+
+  </section>
+
+  <script type="text/javascript">
+  //<![CDATA[
+    function getinput() { return document.getElementById("url"); }
+    var value = getinput().value;
+    function setvalue(view) {
+      var u = document.getElementById("url");
+      if(getinput().value != "" && getinput().value != value) return;
+      getinput().value = (view)? value : '';
+    } 
+  //]]>
+  </script>
 
 </body>
 </html>

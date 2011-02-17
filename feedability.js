@@ -19,7 +19,8 @@ console.log('Starting Feedability: NodeJS Feed Proxy With Readability\n');
 
 // built in libraries
 var fs = require('fs'),
-    http = require('http');
+    http = require('http'),
+    util = require('util');
 
 // external libraries
 var readability = require('readability');
@@ -44,18 +45,18 @@ if(!func.file_exists(cache_path)) {
 }
     
 // some variables used for the http server
-var url_pattern = /^\/(http:\/\/.*)$/;
+var url_pattern = /^\/(http:\/\/.*)|\?[^=]+=(http:\/\/.*)$/;
 var bind = cfg.get('http_server')['bind'];
 var port = cfg.get('http_server')['port'];
 
 // create the http server with the feed proxy
 http.createServer(function (client_request, client_response) {
   var host = client_request.headers['host'];
-  var request_url = client_request.url;
+  var request_url = unescape(client_request.url);
 
   var url_match = request_url.match(url_pattern);
   if(url_match) {
-    var feed_url = url_match[1];
+    var feed_url = url_match[1] || url_match[2];
     console.log('processing new feed url: '+feed_url);
     
     // fetch and process feed
