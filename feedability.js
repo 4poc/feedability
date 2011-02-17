@@ -77,49 +77,52 @@ http.createServer(function (client_request, client_response) {
                 console.log('[WARNING] article not retreived: '+article_url);
                 continue;
               }
-              console.log('extract using readability for '+article_url+
-                          ' ('+article_data.length+')');
               
-              var cache_file = cache.filename('rdby', article_url);
-              var article_text = null; // the extracted article text
-              // check for readability cache:
-              if(func.file_exists(cache_file)) {
-                console.log('using readability cache file: '+cache_file);
-                article_text = fs.readFileSync(cache_file).toString();
-              }
-              // use readability to extract the article text
-              else {
-                try {
-                readability.parse(article_data.toString(), article_url, function(info) {
-                  console.log('write readability cache file: '+cache_file);
-                  
-                  // replace relative urls with absolute ones:
-                  info.content = func.html_rel2abs(info.content, articles[article_url].domain);
-                  // it would be nice to do this directly in the dom, @TODO
+              var article_text = articles[article_url].data; // the extracted article text
+              if(!articles[article_url].error) {              
+                console.log('extract using readability for '+article_url+
+                            ' ('+article_data.length+')');
+                
+                var cache_file = cache.filename('rdby', article_url);
+                // check for readability cache:
+                if(func.file_exists(cache_file)) {
+                  console.log('using readability cache file: '+cache_file);
+                  article_text = fs.readFileSync(cache_file).toString();
+                }
+                // use readability to extract the article text
+                else {
+                  try {
+                  readability.parse(article_data.toString(), article_url, function(info) {
+                    console.log('write readability cache file: '+cache_file);
+                    
+                    // replace relative urls with absolute ones:
+                    info.content = func.html_rel2abs(info.content, articles[article_url].domain);
+                    // it would be nice to do this directly in the dom, @TODO
 
-                  fs.writeFile(cache_file, info.content, function(error) {
-                    if(error) {
-                      console.log('[ERROR] unable to write readability cache file: '+error);
-                    }
+                    fs.writeFile(cache_file, info.content, function(error) {
+                      if(error) {
+                        console.log('[ERROR] unable to write readability cache file: '+error);
+                      }
+                    });
+                    
+                    article_text = info.content;
                   });
-                  
-                  article_text = info.content;
-                });
+                  }
+                  catch(e) {
+                    console.log(e);
+                  }
                 }
-                catch(e) {
-                  console.log(e);
+                
+                // apply the extracted append and prepend rules:
+                if(articles[article_url].prepend != null) {
+                  console.log('rule based prepend: '+articles[article_url].prepend.length);
+                  article_text = articles[article_url].prepend + article_text;
                 }
-              }
-              
-              // apply the extracted append and prepend rules:
-              if(articles[article_url].prepend != null) {
-                console.log('rule based prepend: '+articles[article_url].prepend.length);
-                article_text = articles[article_url].prepend + article_text;
-              }
-              if(articles[article_url].append != null) {
-                console.log('rule based append: '+articles[article_url].append.length);
-                article_text += articles[article_url].append;
-              }
+                if(articles[article_url].append != null) {
+                  console.log('rule based append: '+articles[article_url].append.length);
+                  article_text += articles[article_url].append;
+                }
+              } // end if only no error
               
               // insert article text in feed:
               var replace_entity = '&replaceurl:'+func.sha1(article_url)+';';

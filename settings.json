@@ -23,7 +23,7 @@
     "rules": {
       "heise.de": {
         "remove": ["#mitte_rechts"],
-        "exclusive": ["#mitte_links"],
+        "exclusive": [],
         "prepend": [],
         "append": []
       },
