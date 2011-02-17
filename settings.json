@@ -25,5 +25,7 @@
       "heise.de": ["#mitte_rechts"]
     }
   },
-  "cache_path": "./cache"
+  "cache": {
+    "path": "./cache"
+  }
 }

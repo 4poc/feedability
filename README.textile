@@ -23,6 +23,8 @@ h2. Usage
 
 To start feedability just change in the working directory and execute @node feedability.py@. If everything works you should be able to view "http://127.0.0.1:1912/":http://127.0.0.1:1912/ with your browser.
 
+You can find a complete documentation in the github "repository wiki":https://github.com/4poc/feedability/wiki.
+
 h2. Contact me for Feedback/Questions/Problems
 
 * If you would like to contact me in private use apoc@sixserv.org.

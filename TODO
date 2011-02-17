@@ -1,9 +1,11 @@
-Readability
+Readability/Filters
 
 - readability returns: "Sorry, unable to parse article content. Please view 
   the original page instead." if it was unable to parse it. Should detect
   that and restore the original excerpt. (maybe keep the excerpt anyways)
 - manage to use the readability dom tree for filtering
+- support for filtering of main content pre-selection: extract the element
+  using jquery selector
 
 Proxy
 
@@ -17,9 +19,13 @@ Cache
 
 Feed Parser
 
-- rewrite the feed parser/generator using a xml dom library
+- rewrite the feed parser/generator using a xml dom library (jsdom?)
 
 Crawler
 
 - fetch and respect the robots.txt file
 
+Refactoring
+
+- seperate feedability.js's execution of readability
+- use a library for flow control

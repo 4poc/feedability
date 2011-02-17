@@ -36,7 +36,7 @@ var tpl = require('./lib/tpl.js'),
 
 console.log('use jquery url: '+cfg.get('filter')['jquery_url']);
     
-var cache_path = cfg.get('cache_path');
+var cache_path = cfg.get('cache')['path'];
 
 if(!func.file_exists(cache_path)) {
   console.log('create cache directory: '+cache_path);
