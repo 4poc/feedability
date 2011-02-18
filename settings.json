@@ -37,5 +37,15 @@
   },
   "cache": {
     "path": "./cache"
+  },
+  "log": {
+    "console": true,
+    "stderr": true,
+    "file": true,
+    "file_seperate": false,
+    "syncronized": false,
+    "path": "./logs",
+    "console_level": 3,
+    "file_level": 4
   }
 }

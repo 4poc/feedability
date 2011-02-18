@@ -23,27 +23,25 @@ var fs = require('fs'),
     util = require('util');
 
 // external libraries
-var readability = require('readability');
+var readability = require('readability'),
+    jsdom = require('jsdom');
 
 // internal libraries
-var tpl = require('./lib/tpl.js'),
+var cfg = require('./lib/cfg.js'),
+    tpl = require('./lib/tpl.js'),
     func = require('./lib/func.js'),
-    cfg = require('./lib/cfg.js'),
     cache = require('./lib/cache.js'),
     urlopen = require('./lib/urlopen.js'),
     feed = require('./lib/feed.js'),
     crawler = require('./lib/crawler.js'),
     filter = require('./lib/filter.js');
 
-console.log('use jquery url: '+cfg.get('filter')['jquery_url']);
-    
-var cache_path = cfg.get('cache')['path'];
+// create local logging object
+var log = new (require('./lib/log.js').Logger)('core');
 
-if(!func.file_exists(cache_path)) {
-  console.log('create cache directory: '+cache_path);
-  fs.mkdirSync(cache_path, 0755);
-}
-    
+// this makes sure the cache directory exists 
+cache.create_path();
+
 // some variables used for the http server
 var url_pattern = /^\/(http:\/\/.*)|\?[^=]+=(http:\/\/.*)$/;
 var bind = cfg.get('http_server')['bind'];
@@ -57,13 +55,16 @@ http.createServer(function (client_request, client_response) {
   var url_match = request_url.match(url_pattern);
   if(url_match) {
     var feed_url = url_match[1] || url_match[2];
-    console.log('processing new feed url: '+feed_url);
+    log.info('http client with feed url: '+feed_url, feed_url);
     
     // fetch and process feed
     feed.parse(feed_url, {
-      // the feed is successfully retreived and parsed
+      // the feed is successfully retrieved and parsed
       finished: function(feedxml, feedxmlmime, articles) {
 
+        var doc = jsdom.jsdom(feedxml);
+        
+        
         // next crawl each article url in the feed:
         var crawl = new crawler.Crawler(articles);
         crawl.fetch({
@@ -74,52 +75,59 @@ http.createServer(function (client_request, client_response) {
               var article_url = article_urls[i];
               var article_data = articles[article_url].data;
               if(!article_data || article_data.length <= 0) {
-                console.log('[WARNING] article not retreived: '+article_url);
+                log.warn('article not retreived: '+article_url, article_url);
                 continue;
               }
               
-              var article_text = articles[article_url].data; // the extracted article text
-              if(!articles[article_url].error) {              
-                console.log('extract using readability for '+article_url+
-                            ' ('+article_data.length+')');
+              // the result of the content extraction process, per default,
+              // gets populated with the original data
+              var article_text = articles[article_url].data;
+              if(!articles[article_url].error) {
+                log.info('content extraction of '+article_url, article_url);
                 
                 var cache_file = cache.filename('rdby', article_url);
                 // check for readability cache:
                 if(func.file_exists(cache_file)) {
-                  console.log('using readability cache file: '+cache_file);
+                  log.debug('use readability cache: '+cache_file, article_url);
                   article_text = fs.readFileSync(cache_file).toString();
                 }
                 // use readability to extract the article text
                 else {
-                  try {
-                  readability.parse(article_data.toString(), article_url, function(info) {
-                    console.log('write readability cache file: '+cache_file);
+                  readability.parse(article_data.toString(), article_url,
+                                    function(info) {
+                    
+                    log.debug('write readability cache: '+cache_file,
+                              article_url);
                     
                     // replace relative urls with absolute ones:
-                    info.content = func.html_rel2abs(info.content, articles[article_url].domain);
-                    // it would be nice to do this directly in the dom, @TODO
+                    var domain = articles[article_url].domain;
+                    info.content = func.html_rel2abs(info.content, domain);
+                    // TODO: it would be nice to do this directly in the dom
+                    //   expand filtering rules?
 
                     fs.writeFile(cache_file, info.content, function(error) {
                       if(error) {
-                        console.log('[ERROR] unable to write readability cache file: '+error);
+                        log.error('unable to write readability cache: ' + 
+                                  error, article_url);
+
                       }
                     });
                     
                     article_text = info.content;
                   });
-                  }
-                  catch(e) {
-                    console.log(e);
-                  }
                 }
                 
                 // apply the extracted append and prepend rules:
                 if(articles[article_url].prepend != null) {
-                  console.log('rule based prepend: '+articles[article_url].prepend.length);
+                  log.debug('filtering prepend rule: ' + 
+                            articles[article_url].prepend.length, article_url);
+
                   article_text = articles[article_url].prepend + article_text;
                 }
                 if(articles[article_url].append != null) {
-                  console.log('rule based append: '+articles[article_url].append.length);
+                  log.debug('filtering append rule: ' + 
+                            articles[article_url].append.length, article_url);
+
                   article_text += articles[article_url].append;
                 }
               } // end if only no error
@@ -127,11 +135,15 @@ http.createServer(function (client_request, client_response) {
               // insert article text in feed:
               var replace_entity = '&replaceurl:'+func.sha1(article_url)+';';
               article_text = article_text.replace(/\x08/, '');
-              console.log('replace entity: '+replace_entity+' with length: '+article_text.length);
+              log.debug('replace entity: '+replace_entity+' length: '+
+                        article_text.length, article_url);
+
               feedxml = feedxml.replace(replace_entity, article_text);
             }
 
-            console.log('send finished feed xml to client\n');
+            log.info('deliver finished feed, length: '+feedxml.length+
+                     ' mime: '+feedxmlmime, article_url);
+
             var server_headers = {
               'Content-Type': feedxmlmime+'; charset=utf-8',
               'Server': cfg.get('http_server')['banner']
@@ -146,7 +158,7 @@ http.createServer(function (client_request, client_response) {
         });
       },
       
-      // and error occured during the retreival or parsing of the feed
+      // and error occurred during the retrieval or parsing of the feed
       error: function(message) {
         tpl.error(client_response, message);
       }
@@ -159,5 +171,5 @@ http.createServer(function (client_request, client_response) {
   }
 }).listen(port, bind);
 console.log('http server listening on '+bind+' port '+port);
-console.log('open a browser and try: http://127.0.0.1:'+port+'/');
+console.log('open a browser and try: http://127.0.0.1:'+port+'/\n');
 
