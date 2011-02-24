@@ -1,34 +1,45 @@
 {
-  "http_server": {
+  "server": {
     "bind": "127.0.0.1",
     "port": 1912,
-    "banner": "Feedability/0"
+    "banner": "Feedability/0",
+    "location": "http://127.0.0.1:1912/",
+    "entity_encode": true,
+    "preserve_order": true
   },
-  "http_client": {
+  "urlopen": {
+    "cache": true,
     "headers": {
-      "User-Agent": "Feedability/0",
+      "User-Agent": "Mozilla/5.0 (compatible; Feedability/0.0; +https://github.com/4poc/feedability)",
       "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
       "Accept-Language": "en-us,en;q=0.5",
       "Accept-Charset": "ISO-8859-1,utf-8;q=0.7,*;q=0.7",
       "Pragma": "no-cache"
-    }
-  },
-  "feed_parser": {
-    "item_elements": ["item", "entry"],
-    "remove_elements": ["content:encoded", "description", "content", "summary"]
+    },
+    "convert_charset": true,
+    "use_content_charset": true
   },
   "filter": {
     "activate": true,
     "jquery_url": "http://code.jquery.com/jquery-1.4.2.min.js",
     "rules": {
+      ".*": {
+        "post": {
+          "replace": {
+            "(src|href)=('|\")?(\/)": "$1=$2%{URL_BASE}$3",
+            "<script[^>]*>([\\s\\S]*?)</script>": " "
+          }
+        }
+      },
       "heise.de": {
-        "remove": ["#mitte_rechts"],
-        "exclusive": [],
-        "prepend": [],
-        "append": []
+        "pre": {
+          "remove": ["#mitte_rechts"]
+        }
       },
       "carta.info": {
-        "remove": ["#commentblock"]
+        "pre": {
+          "remove": ["#commentblock"]
+        }
       },
       "giessener-allgemeine.de": {
         "prepend": [".fettvorspann"]
@@ -40,7 +51,7 @@
   },
   "log": {
     "console": true,
-    "stderr": true,
+    "stderr": false,
     "file": true,
     "file_seperate": false,
     "syncronized": false,

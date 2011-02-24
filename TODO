@@ -1,10 +1,5 @@
-Feed Parser
-
-- rewrite the feed parser/generator using a xml dom library (jsdom?)
-
 Refactoring
 
-- seperate feedability.js's execution of readability
 - use a library for flow control
 - testcases!
 

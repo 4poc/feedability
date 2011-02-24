@@ -13,11 +13,23 @@ npm install readability
 npm install node-expat
 </pre>
 
+* Install "node-compress":https://github.com/egorich239/node-compress (the v0-3-3-support branch of "BrightTag's fork":https://github.com/BrightTag/node-compress/tree/v0-3-3-support):
+
+<pre>
+git clone git://github.com/BrightTag/node-compress.git
+cd node-compress
+git checkout v0-3-3-support
+npm install
+</pre>
+
+* Install "node-iconv":https://github.com/bnoordhuis/node-iconv
+
 * Finally, change to a directory of your choice and clone the feedability git repository (there are currently no file releases available):
 
 <pre>
 git clone git://github.com/4poc/feedability.git
 </pre>
+
 
 h2. Usage
 
@@ -30,4 +42,8 @@ h2. Contact me for Feedback/Questions/Problems
 * If you would like to contact me in private use apoc =at= sixserv +dot+ org (GPG: 0xA155B8CB)
 * My IRC nickname is apoc you can reach me in "Freenode":http://freenode.net/ or "Teranetworks":http://geekosphere.org/irc/ ("webchat":https://webchat.geekosphere.org/?channels=sixserv)
 * File a "new issue":https://github.com/4poc/feedability/issues in this git repository
+
+
+java -jar doc/jsdoc-toolkit/jsrun.jar doc/jsdoc-toolkit/app/run.js lib/feed4.js -d=doc/ -v -t=doc/jsdoc-toolkit/templates/codeview
+
 
