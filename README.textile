@@ -11,6 +11,7 @@ h2. Installation
 <pre>
 npm install readability
 npm install node-expat
+npm install iconv
 </pre>
 
 * Install "node-compress":https://github.com/egorich239/node-compress (the v0-3-3-support branch of "BrightTag's fork":https://github.com/BrightTag/node-compress/tree/v0-3-3-support):
@@ -18,11 +19,9 @@ npm install node-expat
 <pre>
 git clone git://github.com/BrightTag/node-compress.git
 cd node-compress
-git checkout v0-3-3-support
+git checkout origin/v0-3-3-support
 npm install
 </pre>
-
-* Install "node-iconv":https://github.com/bnoordhuis/node-iconv
 
 * Finally, change to a directory of your choice and clone the feedability git repository (there are currently no file releases available):
 
