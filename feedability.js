@@ -124,9 +124,14 @@ http.createServer(function (cli_req, cli_resp) {
               s_i = i;
 
           ce.extractByUrl(s_item.url, function(error, item_content, item_url) {
-            log.info('content extracted: '+item_content.length, item_url);
-            item.content = item_content;
-
+            if(error) {
+              log.error('can not extract: '+error);
+              item.content = error;
+            }
+            else {
+              log.info('content extracted: '+item_content.length, item_url);
+              item.content = item_content;
+            }
             send_finished(s_item, s_i);
           });
         })();
