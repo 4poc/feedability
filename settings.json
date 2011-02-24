@@ -27,7 +27,8 @@
         "post": {
           "replace": {
             "(src|href)=('|\")?(\/)": "$1=$2%{URL_BASE}$3",
-            "<script[^>]*>([\\s\\S]*?)</script>": " "
+            "<script[^>]*>([\\s\\S]*?)</script>": " ",
+            "onclick=\"[^\"]+\"": ""
           }
         }
       },
