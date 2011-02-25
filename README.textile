@@ -1,48 +1,80 @@
-Feedability is written in javascript using the "v8 engine":http://code.google.com/p/v8/ and "node.js":http://nodejs.org/, it requires the "node-readability":https://github.com/arrix/node-readability and "node-expat":https://github.com/astro/node-expat libraries. Feedability implements a small HTTP Server, you sent the feed you want to read just as a query string, so for instance: @http://127.0.0.1:1912/http://example.com/atom.xml@ The node.js server will download the feed and parse it for item links (article links), it will also remove any existing content excerpts. 
-Then it crawls all articles and uses readability to extract the content of the received pages. The original feed will be extended with the full-text of the articles and send to the user (the feed reader software). Feedability also supports filters based on "jquery":http://jquery.com/ "selectors":http://api.jquery.com/category/selectors/.
+h1. Feedability
+
+"Feedability":https://github.com/4poc/feedability/ is a proxy server for atom and rss feeds that tries to make them more usable by including the full content of each article. It uses "arc90labs":http://lab.arc90.com/ original "readability":http://code.google.com/p/arc90labs-readability/, a client bookmarklet written in javascript, for main content extraction/information extraction. Feedability is written in "JavaScript":http://en.wikipedia.org/wiki/JavaScript using "googles v8 engine":http://code.google.com/p/v8/ and the networking framework "node.js":http://nodejs.org/, it furthermore depends on the "readability node.js library":https://github.com/arrix/node-readability written by "arrix":https://github.com/arrix, "node bindings":https://github.com/astro/node-expat for the fast "xml parser expat":http://expat.sourceforge.net/ written by "Astro":https://github.com/astro, "node bindings":https://github.com/bnoordhuis/node-iconv for the charset recoding library "iconv":http://www.gnu.org/software/libiconv/ written by "bnoordhuis":https://github.com/bnoordhuis, the "node compression":https://github.com/egorich239/node-compress library written by "egorich239":https://github.com/egorich239/ and the javascript library "jQuery":http://jquery.com/ developed by "The jQuery Project Team":http://jquery.org/team.
 
 h2. Installation
 
-* Install Node.js using your distribution package manager or compile it from source. For detailed installation instructions consider the "node wiki":https://github.com/ry/node/wiki/: "Installation":https://github.com/ry/node/wiki/Installation.
+* Install node.js using your distribution package manager or compile it from source. For detailed installation instructions consider the "node wiki":https://github.com/ry/node/wiki/: "Installation":https://github.com/ry/node/wiki/Installation.
 * Install "npm":http://npmjs.org/, the de-facto standard package manager for node: "README":https://github.com/isaacs/npm#readme with setup instructions.
-* or: If your distribution of choice is Arch Linux you can use the AUR packages "nodejs":http://aur.archlinux.org/packages.php?ID=32930 and "nodejs-npm":http://aur.archlinux.org/packages.php?ID=43626.
+* **or** if you using arch linux you can use the AUR packages "nodejs":http://aur.archlinux.org/packages.php?ID=32930 and "nodejs-npm":http://aur.archlinux.org/packages.php?ID=43626.
 * Run @node -v@ and @npm -v@ to make sure everything works, then, install the necessary depended libraries:
 
 <pre>
-npm install readability
-npm install node-expat
-npm install iconv
+$ npm install readability
+$ npm install node-expat
+$ npm install iconv
 </pre>
 
-* Install "node-compress":https://github.com/egorich239/node-compress (the v0-3-3-support branch of "BrightTag's fork":https://github.com/BrightTag/node-compress/tree/v0-3-3-support):
+* Currently the stable version of "node-compress":https://github.com/egorich239/node-compress is not availible as a npm package, you need to install the "v0-3-3-support":https://github.com/BrightTag/node-compress/tree/v0-3-3-support branch from BrightTag manually:
 
 <pre>
-git clone git://github.com/BrightTag/node-compress.git
-cd node-compress
-git checkout origin/v0-3-3-support
-npm install
+$ git clone git://github.com/BrightTag/node-compress.git
+$ cd node-compress
+$ git checkout origin/v0-3-3-support
+$ npm install
 </pre>
 
-* Finally, change to a directory of your choice and clone the feedability git repository (there are currently no file releases available):
+* To make sure node finds all depended libraries you can run:
 
 <pre>
-git clone git://github.com/4poc/feedability.git
+$ node
+> require('readability'); require('compress'); require('iconv'); require('node-expat');
 </pre>
 
+If something is wrong you should see an error message like @"Error: Cannot find module '[missing library]'"@.
 
-h2. Usage
+* Clone and run the feedability development repository:
 
-To start feedability just change in the working directory and execute @node feedability.py@. If everything works you should be able to view "http://127.0.0.1:1912/":http://127.0.0.1:1912/ with your browser.
+<pre>
+$ git clone git://github.com/4poc/feedability.git
+$ cd feedability
+$ node feedability.js
+Starting Feedability: NodeJS Feed Proxy With Readability
 
-You can find a complete documentation in the github "repository wiki":https://github.com/4poc/feedability/wiki.
+[load settings.json file]
+[found and load the user_settings.json file]
+Fri Feb 25 2011 11:59:16 GMT+0100 (CET) [cfg] [INFO] configuration options merged
+http server listening on 0.0.0.0 port 1912
+open a browser and try: http://127.0.0.1:1912/
 
-h2. Contact me for Feedback/Questions/Problems
+</pre>
 
-* If you would like to contact me in private use apoc =at= sixserv +dot+ org (GPG: 0xA155B8CB)
-* My IRC nickname is apoc you can reach me in "Freenode":http://freenode.net/ or "Teranetworks":http://geekosphere.org/irc/ ("webchat":https://webchat.geekosphere.org/?channels=sixserv)
-* File a "new issue":https://github.com/4poc/feedability/issues in this git repository
+* For more information on usage and internals visit the feedability wiki at github.
 
+h2. Contact
 
-java -jar doc/jsdoc-toolkit/jsrun.jar doc/jsdoc-toolkit/app/run.js lib/feed4.js -d=doc/ -v -t=doc/jsdoc-toolkit/templates/codeview
+* Please report any issue or feature request by creating a new issue in this git repository.
+* Write me an mail: apoc =at= sixserv +dot+ org (GPG: 0xA155B8CB)
+* You can find me at "Freenode":http://freenode.net/ or "Teranetworks":http://geekosphere.org/irc/ / "webchat":https://webchat.geekosphere.org/?channels=sixserv (nickname: apoc)
 
+h2. External Copyright and License
 
+* "node.js":http://nodejs.org/ (Copyright 2009, 2010 Ryan Lienhart Dahl. All rights reserved.): released under the MIT license.
+* "arc90labs-readability":http://code.google.com/p/arc90labs-readability/ (original written by the arc90 team): released under the Apache License 2.0.
+* "node-readability":https://github.com/arrix/node-readability (Copyright (c) 2010 Arrix Zhou): released under the MIT license.
+* "node-expat":https://github.com/astro/node-expat (Copyright (c) 2010 Stephan Maka): released under the MIT license.
+* "node-iconv":https://github.com/bnoordhuis/node-iconv (Copyright (c) 2010 Ben Noordhuis): released under the MIT license.
+* "node-compress":https://github.com/egorich239/node-compress (Copyright 2009, Acknack Ltd. All rights reserved.; Copyright 2010, Ivan Egorov): released under the MIT license.
+* "jquery":http://jquery.com/ (Copyright 2010 The jQuery Project): released under the terms of either the MIT License or the GNU General Public License (GPL) Version 2.
+
+h2. Feedability License and Copyleft
+
+Feedability: NodeJS Feed Proxy With Readability
+
+Copyright (c) 2011, Matthias - apoc - Hecker <"http://apoc.cc/":http://apoc.cc/>
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program.  If not, see <"http://www.gnu.org/licenses/":http://www.gnu.org/licenses/>.
