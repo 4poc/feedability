@@ -1,0 +1,77 @@
+
+body {
+  font: 13.34px helvetica,arial,freesans,clean,sans-serif;
+}
+
+section {
+  display: block;
+  width: 740px;
+  margin: 40px auto;
+  padding: 15px;
+}
+
+h1 {
+  font-size: 33px;
+  margin-top: 0px;
+}
+
+h2 {
+  border-top: 4px solid #E0E0E0 !important;
+  font-size: 150% !important;
+  margin-top: 1.5em !important;
+  padding-top: 0.5em !important;
+}
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+code {
+  font: 12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+  background-color: #F8F8FF;
+  border: 1px solid #DEDEDE;
+  color: #444444;
+  padding: 0 0.2em;
+}
+
+form {
+  margin-top: 25px;
+  margin-left: 40px;
+}
+
+input {
+  border: 1px solid #CCC;
+  color: #666666;
+  font-size: 11px;
+
+  border-spacing: 0px;
+  space: 0px;
+}
+
+input[type="text"] {
+  font: 12px Arial;
+  width: 450px;
+  padding: 10px 5px;
+}
+
+input[type="submit"] {
+  width: 150px;
+  background-color: #EEEEEE;
+  padding: 9px;
+}
+
+
+#search_form {
+}
+
+#search_options {
+  font-size: 11px;
+  width: 450px;
+  margin: 8px 0;
+  padding: 0;
+}
+
