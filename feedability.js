@@ -37,8 +37,13 @@ var port = cfg.get('proxy')['port'];
 // create the http server with the feed proxy
 http.createServer(function(request, response) {
 
-  var proxy_request = new ProxyRequest(request, response);
-  proxy_request.process();
+  try {
+    var proxy_request = new ProxyRequest(request, response);
+    proxy_request.process();    
+  }
+  catch(exception) {
+    log.error('proxy request exception: '+exception);
+  }
 
 }).listen(port, bind);
 console.log('http server listening on '+bind+' port '+port);
