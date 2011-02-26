@@ -3,7 +3,9 @@
     "bind": "127.0.0.1",
     "port": 1912,
     "banner": "Feedability/0.0",
-    "preserve_order": true
+    "preserve_order": true,
+    "use_auth": false,
+    "auth": "user:pass"
   },
   "urlopen": {
     "cache": true,
