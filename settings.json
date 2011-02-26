@@ -1,10 +1,8 @@
 {
-  "server": {
+  "proxy": {
     "bind": "127.0.0.1",
     "port": 1912,
-    "banner": "Feedability/0",
-    "location": "http://127.0.0.1:1912/",
-    "entity_encode": true,
+    "banner": "Feedability/0.0",
     "preserve_order": true
   },
   "urlopen": {

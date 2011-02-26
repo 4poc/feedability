@@ -54,7 +54,7 @@ open a browser and try: http://127.0.0.1:1912/
 h2. Contact
 
 * Please report any issue or feature request by creating a new issue in this git repository.
-* Write me an mail: apoc =at= sixserv +dot+ org (GPG: 0xA155B8CB)
+* Write me an mail: apoc =at= sixserv +dot+ org (GPG: 0xA155B8CB) (Jabber: apoc@swissjabber.ch)
 * You can find me at "Freenode":http://freenode.net/ or "Teranetworks":http://geekosphere.org/irc/ / "webchat":https://webchat.geekosphere.org/?channels=sixserv (nickname: apoc)
 
 h2. External Copyright and License

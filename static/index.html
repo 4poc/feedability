@@ -94,7 +94,7 @@
     and <a href="https://github.com/astro/node-expat">node-expat</a> libraries.
     It implements a small HTTP server, you sent the feed you want to read just 
     as a query string or parameter, so for instance: 
-    <code>http://&host;/http://example.com/atom.xml</code> The node.js 
+    <code>http://{host}/http://example.com/atom.xml</code> The node.js 
     server will download the feed and parse it for item links (article links), 
     it will also remove any existing content excerpts. Then it crawls all 
     articles and uses readability to extract the content of the received pages. 
