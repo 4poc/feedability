@@ -11,13 +11,10 @@
     "cache": true,
     "headers": {
       "User-Agent": "Mozilla/5.0 (compatible; Feedability/0.0; +https://github.com/4poc/feedability)",
-      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-      "Accept-Language": "en-us,en;q=0.5",
-      "Accept-Charset": "ISO-8859-1,utf-8;q=0.7,*;q=0.7",
-      "Pragma": "no-cache"
+      "Accept": "*/*"
     },
-    "convert_charset": true,
-    "use_content_charset": true
+    "ignore_http_charset": true,
+    "convert_charset": true
   },
   "filter": {
     "activate": true,
@@ -26,10 +23,11 @@
       ".*": {
         "post": {
           "replace": {
-            "(src|href)=('|\")?(\/)": "$1=$2%{URL_BASE}$3",
+            "(src|href)=('|\")?(\/)": "$1=$2%{URL_BASE}",
             "<script[^>]*>([\\s\\S]*?)</script>": " ",
             "onclick=\"[^\"]+\"": ""
-          }
+          },
+          "remove": ["object"]
         }
       },
       "heise.de": {

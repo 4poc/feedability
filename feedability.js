@@ -58,9 +58,11 @@ http.createServer(function (cli_req, cli_resp) {
       Template.error(cli_resp, error);
       return;
     }
-
     resp_time = func.ms() - resp_time;
-    var feed = new Feed(feed_content, feed_url);
+    
+    log.info('received content type: '+util.inspect(feed_resp.type));
+    
+    var feed = new Feed(feed_content, feed_url, feed_resp.type.mime);
     feed.parse(function(error, feed) {
       if(error) {
         Template.error(cli_resp, error);
