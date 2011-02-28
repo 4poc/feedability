@@ -1,5 +1,5 @@
 /**
- * Feedability: NodeJS Feed Proxy With Readability
+ * Feedability: Node.js Feed Proxy With Readability
  * Copyright (c) 2011, Matthias -apoc- Hecker <http://apoc.cc/>
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -17,6 +17,12 @@
  */
 console.log('Starting Feedability: NodeJS Feed Proxy With Readability\n');
 
+/**
+ * Core module for startup and shutdown of the feedability HTTP server.
+ * 
+ * @fileOverview
+ */
+
 // built in libraries
 var fs = require('fs'),
     http = require('http'),
@@ -24,11 +30,9 @@ var fs = require('fs'),
 
 // internal libraries
 var cfg = require('./lib/cfg.js'),
+    log = new (require('./lib/log.js').Logger)('core'),
     func = require('./lib/func.js'),
     ProxyRequest = require('./lib/proxy.js').ProxyRequest;
-
-// create local logging object
-var log = new (require('./lib/log.js').Logger)('core');
 
 // some variables used for the http server
 var bind = cfg.get('proxy')['bind'];
