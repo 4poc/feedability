@@ -13,7 +13,6 @@ Proxy/Server
 - support etag caching
 - detect images (and maybe other content) and download it locally so that the
   proxy can serve it from cache.
-- run readability on text/html
 
 Cache
 
