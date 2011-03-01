@@ -1,5 +1,6 @@
 {
-  "proxy": {
+  "proxy":
+  {
     "bind": "127.0.0.1",
     "port": 1912,
     "banner": "Feedability/0.0",
@@ -7,22 +8,41 @@
     "use_auth": false,
     "auth": "user:pass"
   },
-  "urlopen": {
+
+  "urlopen":
+  {
     "cache": true,
-    "headers": {
+    "headers":
+    {
       "User-Agent": "Mozilla/5.0 (compatible; Feedability/0.0; +https://github.com/4poc/feedability)",
       "Accept": "*/*"
     },
     "ignore_http_charset": true,
     "convert_charset": true
   },
-  "filter": {
+
+  "ce":
+  {
+    "cache": true
+  },
+
+  "ce_single":
+  {
+    "cache": false
+  },
+
+  "filter":
+  {
     "activate": true,
     "jquery_url": "http://code.jquery.com/jquery-1.4.2.min.js",
-    "rules": {
-      ".*": {
-        "post": {
-          "replace": {
+    "rules":
+    {
+      ".*":
+      {
+        "post": 
+        {
+          "replace": 
+          {
             "(src|href)=('|\")?(\/)": "$1=$2%{URL_BASE}",
             "<script[^>]*>([\\s\\S]*?)</script>": " ",
             "onclick=\"[^\"]+\"": ""
@@ -30,25 +50,34 @@
           "remove": ["object"]
         }
       },
-      "heise.de": {
-        "pre": {
+      "heise.de": 
+      {
+        "pre": 
+        {
           "remove": ["#mitte_rechts"]
         }
       },
-      "carta.info": {
-        "pre": {
+      "carta.info": 
+      {
+        "pre": 
+        {
           "remove": ["#commentblock"]
         }
       },
-      "giessener-allgemeine.de": {
+      "giessener-allgemeine.de": 
+      {
         "prepend": [".fettvorspann"]
       }
     }
   },
-  "cache": {
+
+  "cache":
+  {
     "path": "./cache"
   },
-  "log": {
+
+  "log": 
+  {
     "console": true,
     "stderr": false,
     "file": true,
@@ -58,4 +87,5 @@
     "console_level": 3,
     "file_level": 4
   }
+
 }
