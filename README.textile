@@ -4,6 +4,10 @@ h1. Feedability
 
 h2. Installation
 
+Feedability is under heavy development, there is no release at the moment,
+but you can try the current development repository. You should expect
+problems, please report them back!
+
 * Install node.js using your distribution package manager or compile it from source. For detailed installation instructions consider the "node wiki":https://github.com/ry/node/wiki/: "Installation":https://github.com/ry/node/wiki/Installation.
 * Install "npm":http://npmjs.org/, the de-facto standard package manager for node: "README":https://github.com/isaacs/npm#readme with setup instructions.
 * **or** if you using arch linux you can use the AUR packages "nodejs":http://aur.archlinux.org/packages.php?ID=32930 and "nodejs-npm":http://aur.archlinux.org/packages.php?ID=43626.
@@ -59,13 +63,13 @@ h2. Contact
 
 h2. External Copyright and License
 
-* "node.js":http://nodejs.org/ (Copyright 2009, 2010 Ryan Lienhart Dahl. All rights reserved.): released under the MIT license.
+* "node.js":http://nodejs.org/ (Copyright (c) 2009, 2010 Ryan Lienhart Dahl. All rights reserved.): released under the MIT license.
 * "arc90labs-readability":http://code.google.com/p/arc90labs-readability/ (original written by the arc90 team): released under the Apache License 2.0.
 * "node-readability":https://github.com/arrix/node-readability (Copyright (c) 2010 Arrix Zhou): released under the MIT license.
 * "node-expat":https://github.com/astro/node-expat (Copyright (c) 2010 Stephan Maka): released under the MIT license.
 * "node-iconv":https://github.com/bnoordhuis/node-iconv (Copyright (c) 2010 Ben Noordhuis): released under the MIT license.
-* "node-compress":https://github.com/egorich239/node-compress (Copyright 2009, Acknack Ltd. All rights reserved.; Copyright 2010, Ivan Egorov): released under the MIT license.
-* "jquery":http://jquery.com/ (Copyright 2010 The jQuery Project): released under the terms of either the MIT License or the GNU General Public License (GPL) Version 2.
+* "node-compress":https://github.com/egorich239/node-compress (Copyright 2009, Acknack Ltd. All rights reserved.; Copyright (c) 2010, Ivan Egorov): released under the MIT license.
+* "jquery":http://jquery.com/ (Copyright (c) 2010 The jQuery Project): released under the terms of either the MIT License or the GNU General Public License (GPL) Version 2.
 
 h2. Feedability License and Copyleft
 
