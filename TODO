@@ -4,7 +4,7 @@ Refactoring
 
 Readability/Filters
 
-- detect if the full article text is present in excerpts using fuzzy matching
+- detect if the full article text is present in excerpts
 - manage to use the readability dom tree for filtering
 
 Proxy/Server
@@ -17,6 +17,7 @@ Proxy/Server
 Cache
 
 - gzip the cache files
+- support database caching
 
 Crawler
 
