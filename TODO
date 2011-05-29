@@ -1,6 +1,7 @@
 Refactoring
 
 - (more) testcases
+- complete the documentation, publish generated jsdoc
 
 Readability/Filters
 
@@ -9,10 +10,12 @@ Readability/Filters
 
 Proxy/Server
 
+- cache the rss feed (use etag/since from server or own caching rules)
 - support gzip content compression
 - support etag caching
 - detect images (and maybe other content) and download it locally so that the
   proxy can serve it from cache.
+- support http and socks proxies for urlopen
 
 Cache
 
