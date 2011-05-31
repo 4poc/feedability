@@ -4,57 +4,27 @@ h1. Feedability
 
 h2. Installation
 
-I will try to create a first release candidate soon, until now you need to use the master branch. Follow these installation instructions:
+I will try to create a first release candidate soon, until now you need to use the master branch. Make sure you've installed a recent version of node ("wiki":https://github.com/ry/node/wiki/) and npm ("README":https://github.com/isaacs/npm#readme).
 
-* Install node.js (0.4>) using your distribution package manager or compile it from source. For detailed installation instructions consider the "node wiki":https://github.com/ry/node/wiki/: "Installation":https://github.com/ry/node/wiki/Installation.
-* Install "npm":http://npmjs.org/, the de-facto standard package manager for node: "README":https://github.com/isaacs/npm#readme with setup instructions.
-* **or** if you using arch linux you can use the AUR packages "nodejs":http://aur.archlinux.org/packages.php?ID=32930 and "nodejs-npm":http://aur.archlinux.org/packages.php?ID=43626.
-* Run @node -v@ and @npm -v@ to make sure everything works, then, install the necessary depended libraries:
+* Clone the repository, you can skip the submodule init if you installed the "(correct) compress module":https://github.com/sjmulder/node-compress manually:
 
 <pre>
-$ npm install readability
-$ npm install node-expat
-$ npm install iconv
+git clone git://github.com/4poc/feedability.git
+cd feedability/
+git submodule update --init
+cd node_modules/compress; sh build.sh; cd ../../
 </pre>
 
-* To make sure node finds all depended libraries you can run:
+* Install the required libraries:
 
 <pre>
-$ node
-> require('readability'); require('iconv'); require('node-expat');
+npm install readability node-expat iconv
+# OR globally:
+sudo npm install -g readability node-expat iconv
 </pre>
 
-If something is wrong you should see an error message like @"Error: Cannot find module '[missing library]'"@.
-
-* Clone the repository:
-
-<pre>
-$ git clone git://github.com/4poc/feedability.git
-</pre>
-
-* Unfortunately the node-compress library is not available via npm (only an old version) you either can install it manually or use the submodule (node_modules/compress):
-
-<pre>
-$ cd feedability
-$ git submodule update --init
-$ cd node_modules/compress
-$ sh build.sh
-</pre>
-
-* Run Feedability:
-
-<pre>
-$ node feedability.js
-Starting Feedability: NodeJS Feed Proxy With Readability
-
-[load settings.json file]
-[found and load the user_settings.json file]
-Fri Feb 25 2011 11:59:16 GMT+0100 (CET) [cfg] [INFO] configuration options merged
-http server listening on 0.0.0.0 port 1912
-open a browser and try: http://127.0.0.1:1912/
-
-</pre>
-
+* To start the server: @node feedability.js@ ...
+* but I recommend to demonize it, using forever (@sudo npm install -g forever@) or similar: @forever start -l forever.log -o forever_stdout.log -e forever_stderr.log feedability.js@
 * For more documentation visit the "wiki":https://github.com/4poc/feedability/wiki
 * Please report bugs!
 
