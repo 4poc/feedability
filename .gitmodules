@@ -1,15 +1,3 @@
 [submodule "node_modules/compress"]
 	path = node_modules/compress
 	url = git://github.com/sjmulder/node-compress.git
-[submodule "node_modules/readability"]
-	path = node_modules/readability
-	url = git://github.com/4poc/node-readability.git
-[submodule "node_modules/node-expat"]
-	path = node_modules/node-expat
-	url = git://github.com/astro/node-expat.git
-[submodule "node_modules/iconv"]
-	path = node_modules/iconv
-	url = git://github.com/bnoordhuis/node-iconv.git
-[submodule "node_modules/jsdom"]
-	path = node_modules/jsdom
-	url = git://github.com/tmpvar/jsdom.git
