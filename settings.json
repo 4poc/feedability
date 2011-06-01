@@ -21,6 +21,14 @@
     "convert_charset": true
   },
 
+  "cookies":
+  {
+    "activate": false,
+    "whitelist": [],
+    "type": "firefox_sqlite",
+    "cookie_jar": "/home/user/.mozilla/firefox/abcdefgh.default/cookies.sqlite"
+  },
+
   "ce":
   {
     "cache": true
