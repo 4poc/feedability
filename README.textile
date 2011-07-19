@@ -18,9 +18,9 @@ cd node_modules/compress; sh build.sh; cd ../../
 * Install the required libraries: (node-sqlite is optional, only necessary if you want to import firefox cookies)
 
 <pre>
-npm install readability node-expat iconv node-sqlite
+npm install readability node-expat iconv sqlite
 # OR globally:
-sudo npm install -g readability node-expat iconv node-sqlite
+sudo npm install -g readability node-expat iconv sqlite
 </pre>
 
 * To start the server: @node feedability.js@ ...
