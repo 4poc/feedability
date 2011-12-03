@@ -1,26 +1,24 @@
 h1. Feedability
 
-"Feedability":https://github.com/4poc/feedability/ is a proxy server for atom and rss feeds that tries to make them more usable by including the full content of each article. It uses "arc90labs":http://lab.arc90.com/ original "readability":http://code.google.com/p/arc90labs-readability/, a client bookmarklet written in javascript, for main content extraction/information extraction. Feedability is using the networking framework "node.js":http://nodejs.org/, it furthermore depends on the "readability node.js library":https://github.com/arrix/node-readability by "arrix":https://github.com/arrix, "node bindings":https://github.com/astro/node-expat for the fast "xml parser expat":http://expat.sourceforge.net/ by "Astro":https://github.com/astro, "node bindings":https://github.com/bnoordhuis/node-iconv for the charset recoding library "iconv":http://www.gnu.org/software/libiconv/ by "bnoordhuis":https://github.com/bnoordhuis, the "node compression":https://github.com/sjmulder/node-compress library by "waveto":https://github.com/waveto/node-compress, "egorich239":https://github.com/egorich239/ and "sjmulder":https://github.com/sjmulder, "jQuery":http://jquery.com/ developed by "The jQuery Project Team":http://jquery.org/team and "node-sqlite":https://github.com/orlandov/node-sqlite by "grumdrig":https://github.com/grumdrig and "orlandov":https://github.com/orlandov.
+"Feedability":https://github.com/4poc/feedability/ is a proxy server for atom and rss feeds that tries to make them more usable by including the full content of each article. It uses "arc90labs":http://lab.arc90.com/ original "readability":http://code.google.com/p/arc90labs-readability/, a client bookmarklet written in javascript, for main content extraction/information extraction. Feedability is using the networking framework "node.js":http://nodejs.org/, it furthermore depends on the "readability node.js library":https://github.com/arrix/node-readability by "arrix":https://github.com/arrix, "node bindings":https://github.com/astro/node-expat for the fast "xml parser expat":http://expat.sourceforge.net/ by "Astro":https://github.com/astro, "node bindings":https://github.com/bnoordhuis/node-iconv for the charset recoding library "iconv":http://www.gnu.org/software/libiconv/ by "bnoordhuis":https://github.com/bnoordhuis, "jQuery":http://jquery.com/ developed by "The jQuery Project Team":http://jquery.org/team and "node-sqlite":https://github.com/orlandov/node-sqlite by "grumdrig":https://github.com/grumdrig and "orlandov":https://github.com/orlandov.
 
 h2. Installation
 
-I will try to create a first release candidate soon, until now you need to use the master branch. Make sure you've installed a recent version of node ("wiki":https://github.com/ry/node/wiki/) and npm ("README":https://github.com/isaacs/npm#readme).
+I will try to create a first release candidate soon, until now you need to use the master branch. Make sure you've installed a recent version of node ("wiki":https://github.com/ry/node/wiki/) and npm ("README":https://github.com/isaacs/npm#readme). Tested with node 0.6.4 and npm 1.1.0.
 
-* Clone the repository, you can skip the submodule init if you installed the "(correct) compress module":https://github.com/sjmulder/node-compress manually:
+* Clone the repository:
 
 <pre>
 git clone git://github.com/4poc/feedability.git
 cd feedability/
-git submodule update --init
-cd node_modules/compress; sh build.sh; cd ../../
 </pre>
 
 * Install the required libraries: (node-sqlite is optional, only necessary if you want to import firefox cookies)
 
 <pre>
-npm install readability node-expat iconv sqlite
+npm install readability jsdom node-expat iconv sqlite
 # OR globally:
-sudo npm install -g readability node-expat iconv sqlite
+sudo npm install -g readability jsdom node-expat iconv sqlite
 </pre>
 
 * To start the server: @node feedability.js@ ...
@@ -41,7 +39,6 @@ h2. External Copyright and License
 * "node-readability":https://github.com/arrix/node-readability (Copyright (c) 2010 Arrix Zhou): released under the MIT license.
 * "node-expat":https://github.com/astro/node-expat (Copyright (c) 2010 Stephan Maka): released under the MIT license.
 * "node-iconv":https://github.com/bnoordhuis/node-iconv (Copyright (c) 2010 Ben Noordhuis): released under the MIT license.
-* "node-compress":https://github.com/egorich239/node-compress (Copyright 2009, Acknack Ltd. All rights reserved.; Copyright (c) 2010, Ivan Egorov): released under the MIT license.
 * "jquery":http://jquery.com/ (Copyright (c) 2010 The jQuery Project): released under the terms of either the MIT License or the GNU General Public License (GPL) Version 2.
 
 h2. Feedability License and Copyleft

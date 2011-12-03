@@ -16,7 +16,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 console.log('Feedability : NodeJS Feed Proxy With Readability');
-console.log('Module Load Path : ' + require.paths + '\n');
 
 /**
  * Core module for startup and shutdown of the feedability HTTP server.
